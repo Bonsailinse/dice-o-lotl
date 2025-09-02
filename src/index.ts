@@ -4,9 +4,59 @@ import { loadCommands } from './handlers/commandHandler';
 import { loadEvents } from './handlers/eventHandler';
 import { Command } from './types/Command';
 import path from 'path';
+import fs from 'fs';
+import { promisify } from 'util';
 
 // Load environment variables
 config();
+
+// Set NODE_ENV if not already set
+if (!process.env.NODE_ENV) {
+    process.env.NODE_ENV = 'production';
+}
+
+// Setup logging
+const logsDir = path.join(__dirname, '..', 'logs');
+const startupLogPath = path.join(logsDir, 'startup.log');
+
+// Ensure logs directory exists
+if (!fs.existsSync(logsDir)) {
+    fs.mkdirSync(logsDir, { recursive: true });
+}
+
+// Clear the startup log file before each start
+fs.writeFileSync(startupLogPath, '');
+
+// Store original console methods before overriding
+const originalConsoleLog = console.log;
+const originalConsoleError = console.error;
+
+// Custom logging function that writes to both console and file
+function logToFile(message: string, isError: boolean = false) {
+    const timestamp = new Date().toISOString();
+    const logMessage = `[${timestamp}] ${message}\n`;
+
+    // Write to console using original methods
+    if (isError) {
+        originalConsoleError(message);
+    } else {
+        originalConsoleLog(message);
+    }
+
+    // Append to file
+    fs.appendFileSync(startupLogPath, logMessage);
+}
+
+// Override console.log and console.error for startup logging
+console.log = (...args: any[]) => {
+    const message = args.join(' ');
+    logToFile(message, false);
+};
+
+console.error = (...args: any[]) => {
+    const message = args.join(' ');
+    logToFile(message, true);
+};
 
 // Create a new client instance
 const client = new Client({
@@ -43,7 +93,12 @@ async function init() {
 
 // Handle process termination
 process.on('SIGINT', () => {
-    console.log('\n🔌 Shutting down bot...');
+    logToFile('\n🔌 Shutting down bot...');
+
+    // Restore original console methods
+    console.log = originalConsoleLog;
+    console.error = originalConsoleError;
+
     client.destroy();
     process.exit(0);
 });

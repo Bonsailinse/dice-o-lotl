@@ -1,4 +1,4 @@
-import { Events, Interaction } from 'discord.js';
+import { Events, Interaction, InteractionReplyOptions, MessageFlags } from 'discord.js';
 
 export default {
     name: Events.InteractionCreate,
@@ -16,13 +16,21 @@ export default {
             await command.execute(interaction);
         } catch (error) {
             console.error(`Error executing ${interaction.commandName}:`, error);
-            
+
             const errorMessage = 'There was an error while executing this command!';
-            
-            if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({ content: errorMessage, ephemeral: true });
-            } else {
-                await interaction.reply({ content: errorMessage, ephemeral: true });
+            const replyOptions: InteractionReplyOptions = {
+                content: errorMessage,
+                flags: MessageFlags.Ephemeral,
+            };
+
+            try {
+                if (interaction.replied || interaction.deferred) {
+                    await interaction.followUp(replyOptions);
+                } else {
+                    await interaction.reply(replyOptions);
+                }
+            } catch (replyError) {
+                console.error('Failed to send error message:', replyError);
             }
         }
     },
