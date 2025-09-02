@@ -3,12 +3,16 @@ import { config } from 'dotenv';
 import { loadCommands } from './handlers/commandHandler';
 import { loadEvents } from './handlers/eventHandler';
 import { Command } from './types/Command';
+import { BOT_CONFIG } from './config/botConfig';
 import path from 'path';
 import fs from 'fs';
 import { promisify } from 'util';
 
 // Load environment variables
 config();
+
+// Export BOT_CONFIG for use in other files (backward compatibility)
+export const BOT_INFO = BOT_CONFIG;
 
 // Set NODE_ENV if not already set
 if (!process.env.NODE_ENV) {
@@ -75,7 +79,13 @@ client.commands = new Collection<string, Command>();
 // Main initialization function
 async function init() {
     try {
-        console.log('🤖 Starting Dice-o-lotl...');
+        console.log('🎲 ====================================');
+        console.log(`🤖 Starting ${BOT_INFO.name} v${BOT_INFO.version}`);
+        console.log(`📝 ${BOT_INFO.description}`);
+        console.log(`👤 Created by: ${BOT_INFO.author.name}`);
+        console.log(`🔗 GitHub: ${BOT_INFO.links.github}`);
+        console.log('🎲 ====================================');
+        console.log('');
 
         // Load commands
         await loadCommands(client, path.join(__dirname, 'commands'));
