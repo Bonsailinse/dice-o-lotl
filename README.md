@@ -1,14 +1,19 @@
 # Dice-o-lotl Discord Bot
 
-A feature-rich Discord bot with RPG mechanics and dice rolling features built using Discord.js v14 and TypeScript. Named after the adorable axolotl, this bot brings fun dice-based adventures to your Discord server!
+A feature-rich Discord bot with RPG mechanics and dice rolling features built using Discord.js v14 and TypeScript. Created for the AxolotlArmy community.
 
 ## 🚀 Features
 
-- **Slash Commands**: Modern Discord slash command support
-- **RPG System**: Character profiles, inventory, stats, and more
-- **TypeScript**: Fully typed for better development experience
+- **Slash Commands**: Modern Discord slash command support with comprehensive command system
+- **RPG System**: Character profiles, inventory management, stats, and more
+- **Bot Information**: Detailed bot information and real-time health monitoring
+- **Professional Logging**: Comprehensive startup logging with timestamps and file output
+- **TypeScript**: Fully typed for better development experience and type safety
 - **Modular Architecture**: Easy to extend with new commands and features
 - **Event Handling**: Clean event-driven architecture
+- **Centralized Configuration**: Professional metadata management system
+- **Interactive UI**: Rich embeds with buttons for enhanced user experience
+- **Activity Rotation**: Dynamic bot presence with rotating status messages
 
 ## 📋 Prerequisites
 
@@ -28,16 +33,17 @@ npm install
 ### 2. Configure Environment Variables
 
 1. Copy `.env.example` to `.env`:
-   ```bash
-   cp .env.example .env
-   ```
+
+    ```bash
+    cp .env.example .env
+    ```
 
 2. Fill in your bot credentials:
-   ```env
-   DISCORD_TOKEN=your_bot_token_here
-   CLIENT_ID=your_application_id_here
-   GUILD_ID=your_development_guild_id_here  # Optional, for faster command updates during development
-   ```
+    ```env
+    DISCORD_TOKEN=your_bot_token_here
+    CLIENT_ID=your_application_id_here
+    GUILD_ID=your_development_guild_id_here  # Optional, for faster command updates during development
+    ```
 
 ### 3. Create Your Discord Bot
 
@@ -47,34 +53,49 @@ npm install
 4. Click "Add Bot"
 5. Copy the bot token and add it to your `.env` file
 6. Enable the necessary intents:
-   - Presence Intent (if needed)
-   - Server Members Intent
-   - Message Content Intent
+    - Presence Intent (if needed)
+    - Server Members Intent
+    - Message Content Intent
 
 ### 4. Invite Your Bot
 
 1. In the Discord Developer Portal, go to OAuth2 → URL Generator
 2. Select scopes: `bot` and `applications.commands`
 3. Select bot permissions:
-   - Send Messages
-   - Use Slash Commands
-   - Read Message History
-   - Embed Links
-   - Add Reactions
-   - Manage Messages (optional)
+    - Send Messages
+    - Use Slash Commands
+    - Read Message History
+    - Embed Links
+    - Add Reactions
+    - Manage Messages (optional)
 4. Copy the generated URL and open it to invite your bot
 
 ## 🏃‍♂️ Running the Bot
 
 ### Development Mode (with hot reload)
+
 ```bash
 npm run dev
 ```
 
 ### Production Mode
+
 ```bash
 npm run build
 npm start
+```
+
+### Additional Scripts
+
+```bash
+# Clear Discord slash commands (useful for development)
+npm run clear-commands
+
+# Lint TypeScript code
+npm run lint
+
+# Format code with Prettier
+npm run format
 ```
 
 ## 📁 Project Structure
@@ -83,14 +104,18 @@ npm start
 dice-o-lotl/
 ├── src/
 │   ├── commands/        # Command files organized by category
-│   │   ├── general/     # General commands (ping, help, etc.)
+│   │   ├── general/     # General commands (ping, help, botinfo, status)
 │   │   └── rpg/         # RPG-specific commands
+│   ├── config/          # Bot configuration and metadata
 │   ├── events/          # Discord.js event handlers
 │   ├── handlers/        # Command and event loaders
 │   ├── types/           # TypeScript type definitions
 │   └── index.ts         # Main bot file
+├── logs/                # Bot logs and startup information
+├── scripts/             # Utility scripts (command clearing, etc.)
 ├── .env                 # Environment variables (create from .env.example)
 ├── .env.example         # Example environment variables
+├── CHANGELOG.md         # Version history and release notes
 ├── tsconfig.json        # TypeScript configuration
 └── package.json         # Project dependencies and scripts
 ```
@@ -98,13 +123,24 @@ dice-o-lotl/
 ## 🎮 Available Commands
 
 ### General Commands
-- `/ping` - Check bot latency
-- `/help` - Display help information
+
+- `/ping` - Check bot latency and response time
+- `/help` - Display comprehensive help information
+- `/botinfo` - Display detailed bot information with interactive buttons
+- `/status` - Show real-time bot health metrics and system status
 
 ### RPG Commands
-- `/profile` - View your character profile
-- `/inventory` - Check your inventory items
+
+- `/profile` - View and manage your character profile
+- `/inventory` - Check and manage your inventory items
 - `/stats` - View detailed character statistics (to be implemented)
+
+### Command Features
+
+- **Interactive Buttons**: Commands include buttons for easy navigation
+- **Rich Embeds**: Professional, colorful embed responses
+- **Real-time Data**: Live system metrics and bot statistics
+- **Comprehensive Information**: Detailed technical specifications and features
 
 ## 🔧 Adding New Commands
 
@@ -116,10 +152,8 @@ import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { Command } from '../../types/Command';
 
 const myCommand: Command = {
-    data: new SlashCommandBuilder()
-        .setName('commandname')
-        .setDescription('Command description'),
-    
+    data: new SlashCommandBuilder().setName('commandname').setDescription('Command description'),
+
     async execute(interaction: ChatInputCommandInteraction) {
         // Command logic here
         await interaction.reply('Command response!');
@@ -129,46 +163,115 @@ const myCommand: Command = {
 export default myCommand;
 ```
 
+## ⚙️ Configuration System
+
+Dice-o-lotl features a comprehensive configuration system for easy customization:
+
+### Bot Configuration (`src/config/botConfig.ts`)
+
+- **Centralized Metadata**: All bot information in one place
+- **TypeScript Interfaces**: Type-safe configuration management
+- **Branding Settings**: Colors, emojis, and visual identity
+- **Technical Specifications**: Version tracking and system requirements
+- **Links and Support**: GitHub, documentation, and support server links
+
+### Key Configuration Features
+
+- **Professional Branding**: Consistent colors and styling across all commands
+- **Version Management**: Synchronized versioning between package.json and bot config
+- **Feature Tracking**: Comprehensive list of bot capabilities
+- **Support Integration**: Built-in links to documentation and support resources
+
+### Customizing the Bot
+
+1. Edit `src/config/botConfig.ts` to update bot metadata
+2. Modify branding colors, emojis, and descriptions
+3. Update author information and support links
+4. Add new features to the features array
+
+## 📊 Bot Information System
+
+The bot includes a sophisticated information and monitoring system:
+
+### `/botinfo` Command Features
+
+- **Comprehensive Statistics**: Guild count, user count, command count
+- **System Information**: Memory usage, uptime, Node.js version
+- **Interactive Buttons**: Direct links to GitHub, documentation, and invite
+- **Professional Presentation**: Rich embeds with consistent branding
+
+### `/status` Command Features
+
+- **Real-time Health Metrics**: Live system status and performance
+- **Latency Monitoring**: WebSocket and API response times
+- **Resource Usage**: Memory consumption and system specifications
+- **Health Status Indicators**: Color-coded status based on performance
+
+## 🔧 Adding New Commands
+
+```
+
 ## 🎯 Prompt Engineering Tips
 
 When creating prompts for your RPG bot features, consider:
 
 ### Character Generation Prompts
 ```
+
 "Generate a fantasy character with the following attributes:
+
 - Class: [Warrior/Mage/Rogue/etc.]
 - Background: [Brief backstory]
 - Starting stats based on class
 - Unique traits or abilities"
+
 ```
 
 ### Quest Generation
 ```
+
 "Create a quest for a level [X] character:
+
 - Quest name and description
 - Objectives (main and optional)
 - Rewards (experience, gold, items)
 - Difficulty rating
 - NPCs involved"
+
 ```
 
 ### Item Generation
 ```
+
 "Generate a [rarity] [item type] for RPG gameplay:
+
 - Item name and description
 - Stats/effects
 - Value in gold
 - Level requirement
 - Special properties or lore"
+
 ```
 
 ## 📝 Development Tips
 
 1. **Type Safety**: Always define interfaces for your data structures
-2. **Error Handling**: Wrap command executions in try-catch blocks
-3. **Database**: Consider adding a database (PostgreSQL, MongoDB) for persistent data
-4. **Cooldowns**: Implement command cooldowns to prevent spam
-5. **Permissions**: Add role-based command restrictions
+2. **Centralized Configuration**: Use `src/config/botConfig.ts` for all bot metadata
+3. **Error Handling**: Wrap command executions in try-catch blocks
+4. **Professional Branding**: Use `getBrandingEmbed()` for consistent styling
+5. **Logging**: Leverage the built-in logging system for debugging
+6. **Database**: Consider adding a database (PostgreSQL, MongoDB) for persistent data
+7. **Cooldowns**: Implement command cooldowns to prevent spam
+8. **Permissions**: Add role-based command restrictions
+9. **Version Management**: Keep versions synchronized between package.json and botConfig.ts
+10. **Documentation**: Update CHANGELOG.md for all new features and changes
+
+### New Feature Development
+- Follow the established command structure in `/commands/general/` and `/commands/rpg/`
+- Use the centralized configuration system for consistency
+- Implement rich embeds with interactive buttons for better UX
+- Include proper TypeScript typing for all new features
+- Add comprehensive logging for debugging and monitoring
 
 ## 🐛 Troubleshooting
 
@@ -186,7 +289,49 @@ When creating prompts for your RPG bot features, consider:
 - [Discord.js Documentation](https://discord.js.org/)
 - [Discord Developer Portal](https://discord.com/developers/docs)
 - [TypeScript Documentation](https://www.typescriptlang.org/docs)
+- [Bot Repository](https://github.com/Bonsailinse/dice-o-lotl)
+- [Release Notes](https://github.com/Bonsailinse/dice-o-lotl/blob/main/CHANGELOG.md)
+
+## 🔄 Version History
+
+Current Version: **v1.1.0**
+
+### Recent Updates (v1.1.0)
+- ✨ Added comprehensive bot metadata system
+- 🎯 New `/botinfo` command with interactive buttons
+- 📊 New `/status` command for health monitoring
+- 🎨 Professional branding and consistent styling
+- 📝 Enhanced logging and startup information
+- ⚙️ Centralized configuration management
+- 🔄 Activity rotation system
+
+For detailed version history, see [CHANGELOG.md](CHANGELOG.md).
+
+## 🦎 AxolotlArmy Community
+
+Dice-o-lotl is created for the AxolotlArmy community!
+
+- **Support Server**: [dc.axolotl.army](https://dc.axolotl.army)
+- **Website**: [axolotl.army](https://axolotl.army)
+- **Developer**: [Bonsailinse](https://github.com/Bonsailinse)
+
+## 🤝 Contributing
+
+We welcome contributions! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 🐛 Support & Issues
+
+- **GitHub Issues**: [Report bugs or request features](https://github.com/Bonsailinse/dice-o-lotl/issues)
+- **Discord Support**: Join our [support server](https://dc.axolotl.army)
+- **Documentation**: Check the `/botinfo` command in Discord for quick links
 
 ## 📄 License
 
 This project is licensed under the MIT License.
+```
