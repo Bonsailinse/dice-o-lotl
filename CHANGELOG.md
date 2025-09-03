@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2025-09-04
+
+### Fixed
+
+- Updated ESLint configuration to v9 format (eslint.config.js)
+- Fixed all ESLint errors and warnings in source code
+- Removed unused imports and variables to improve code quality
+- Fixed quote consistency throughout the codebase (single quotes)
+- Removed legacy .eslintrc.json configuration file
+
+### Technical
+
+- Migrated from .eslintrc.json to eslint.config.js for ESLint v9 compatibility
+- Updated linting rules to be more permissive for Discord.js bot development
+- Fixed CI/CD pipeline lint step compatibility
+
 ## [1.2.0] - 2025-09-04
 
 ### Added

@@ -2,7 +2,6 @@ import { Client, REST, Routes } from 'discord.js';
 import fs from 'fs/promises';
 import path from 'path';
 import { pathToFileURL } from 'url';
-import { Command } from '../types/Command';
 
 // Function to validate command structure
 function validateCommand(command: any, filePath: string): boolean {
@@ -118,7 +117,7 @@ export async function loadCommands(client: Client, commandsPath: string): Promis
 }
 
 // Utility function to explicitly clear all commands (use with caution)
-async function clearAllCommands(): Promise<void> {
+async function _clearAllCommands(): Promise<void> {
     const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN!);
 
     try {
@@ -165,7 +164,7 @@ async function registerCommands(commands: any[]): Promise<void> {
                     `🗑️  Found ${currentCommands.length} existing commands: ${currentCommands.map((cmd: any) => cmd.name).join(', ')}`
                 );
             }
-        } catch (fetchError) {
+        } catch {
             console.log('📄 No existing commands found or error fetching them');
         }
 

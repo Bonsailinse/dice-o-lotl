@@ -12,7 +12,7 @@ export default {
         console.log(`📊 Serving ${client.guilds.cache.size} guilds`);
         console.log(`👥 Connected to ${client.users.cache.size} users`);
         console.log(`🌐 Shard ID: ${client.shard?.ids || 'No sharding'}`);
-        console.log(`📈 Uptime: Starting...`);
+        console.log('📈 Uptime: Starting...');
         console.log(`📝 Version: ${BOT_CONFIG.version}`);
         console.log(`🔗 Support: ${BOT_CONFIG.links.github}`);
         console.log('🎯 ====================================');

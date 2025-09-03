@@ -1,4 +1,4 @@
-import { Client, Collection, Events, GatewayIntentBits } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import { config } from 'dotenv';
 import { loadCommands } from './handlers/commandHandler';
 import { loadEvents } from './handlers/eventHandler';
@@ -6,7 +6,6 @@ import { Command } from './types/Command';
 import { BOT_CONFIG } from './config/botConfig';
 import path from 'path';
 import fs from 'fs';
-import { promisify } from 'util';
 
 // Load environment variables
 config();

@@ -82,13 +82,13 @@ export default {
                     value: [
                         `**Version:** ${BOT_CONFIG.version}`,
                         `**Commands:** ${client.commands?.size || 0}`,
-                        `**Events:** Active`,
+                        '**Events:** Active',
                     ].join('\n'),
                     inline: true,
                 }
             )
             .setFooter({
-                text: `Last updated`,
+                text: 'Last updated',
                 iconURL: client.user?.displayAvatarURL(),
             })
             .setTimestamp();
