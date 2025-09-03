@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.2] - 2025-09-04
+
+### Fixed
+
+- Added `"type": "module"` to package.json to eliminate ESLint module type warning
+- Renamed jest.config.js to jest.config.cjs for CommonJS compatibility
+- Renamed eslint.config.js to eslint.config.mjs for ES module clarity
+- Improved module type declarations and configuration consistency
+
+### Technical
+
+- Enhanced ES module support and configuration
+- Eliminated performance overhead warning from ESLint module type detection
+- Maintained compatibility between Jest (CommonJS) and ESLint (ES module) configurations
+
 ## [1.2.1] - 2025-09-04
 
 ### Fixed
