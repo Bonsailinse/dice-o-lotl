@@ -209,13 +209,14 @@ The bot includes a sophisticated information and monitoring system:
 
 ## 🔧 Adding New Commands
 
-```
+...
 
 ## 🎯 Prompt Engineering Tips
 
 When creating prompts for your RPG bot features, consider:
 
 ### Character Generation Prompts
+
 ```
 
 "Generate a fantasy character with the following attributes:
@@ -228,6 +229,7 @@ When creating prompts for your RPG bot features, consider:
 ```
 
 ### Quest Generation
+
 ```
 
 "Create a quest for a level [X] character:
@@ -241,6 +243,7 @@ When creating prompts for your RPG bot features, consider:
 ```
 
 ### Item Generation
+
 ```
 
 "Generate a [rarity] [item type] for RPG gameplay:
@@ -267,6 +270,7 @@ When creating prompts for your RPG bot features, consider:
 10. **Documentation**: Update CHANGELOG.md for all new features and changes
 
 ### New Feature Development
+
 - Follow the established command structure in `/commands/general/` and `/commands/rpg/`
 - Use the centralized configuration system for consistency
 - Implement rich embeds with interactive buttons for better UX
@@ -276,11 +280,13 @@ When creating prompts for your RPG bot features, consider:
 ## 🐛 Troubleshooting
 
 ### Bot is not responding to commands
+
 - Ensure the bot has proper permissions in your server
 - Check that slash commands are registered (may take up to an hour globally)
 - Verify your bot token is correct
 
 ### TypeScript errors
+
 - Run `npm install` to ensure all dependencies are installed
 - Check that your Node.js version is 18.0.0 or higher
 
@@ -297,6 +303,7 @@ When creating prompts for your RPG bot features, consider:
 Current Version: **v1.1.0**
 
 ### Recent Updates (v1.1.0)
+
 - ✨ Added comprehensive bot metadata system
 - 🎯 New `/botinfo` command with interactive buttons
 - 📊 New `/status` command for health monitoring
@@ -334,4 +341,3 @@ We welcome contributions! Please:
 ## 📄 License
 
 This project is licensed under the MIT License.
-```
