@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-09-06
+
+### Added
+
+- Complete PostgreSQL database integration with connection pooling
+- DatabaseService for managing user profiles, inventories, and items
+- UserSyncService for real-time Discord user synchronization
+- Automatic user sync on bot startup and guild member events
+- Database migrations with sample items and proper table structure
+- New sync command for manual user database synchronization
+- Guild member event handlers (add, remove, update)
+- Deployment automation scripts with semantic versioning
+- Comprehensive test coverage for database-backed functionality
+
+### Changed
+
+- Ready event is now async to support user synchronization
+- RPG commands (profile, inventory) now use database backend instead of mock data
+- Documentation moved to dedicated docs/ folder for better organization
+- Improved test suite with proper DatabaseService mocking
+
+### Fixed
+
+- Emoji encoding issues in profile command
+- Test suite updated to handle async operations and database integration
+- Database table structure with proper SERIAL primary keys and foreign key relationships
+
 ## [1.3.0] - 2025-09-05
 
 ### Added

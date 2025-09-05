@@ -2,6 +2,14 @@ import { Events, ActivityType } from 'discord.js';
 import readyEvent from '../../src/events/ready';
 import { TEST_VERSION } from '../utils/testConstants';
 
+// Mock the UserSyncService
+jest.mock('../../src/database/UserSyncService', () => ({
+    UserSyncService: {
+        initialize: jest.fn(),
+        syncAllUsers: jest.fn().mockResolvedValue(undefined),
+    },
+}));
+
 // Mock botConfig with centralized version
 jest.mock('../../src/config/botConfig', () => ({
     BOT_CONFIG: {
@@ -10,6 +18,10 @@ jest.mock('../../src/config/botConfig', () => ({
         links: {
             github: 'https://github.com/test/repo',
         },
+        author: {
+            name: 'Test Author',
+        },
+        description: 'Test description',
         features: ['RPG', 'Dice Rolling'],
     },
 }));
@@ -68,7 +80,7 @@ describe('Ready Event', () => {
         expect(consoleSpy).toHaveBeenCalledWith('🔗 Support: https://github.com/test/repo');
     });
 
-    it('should handle missing shard information', () => {
+    it('should handle missing shard information', async () => {
         const mockClient = {
             user: {
                 tag: 'TestBot#1234',
@@ -88,12 +100,12 @@ describe('Ready Event', () => {
             shard: null,
         };
 
-        readyEvent.execute(mockClient as any);
+        await readyEvent.execute(mockClient as any);
 
         expect(consoleSpy).toHaveBeenCalledWith('🌐 Shard ID: No sharding');
     });
 
-    it('should set initial activity', () => {
+    it('should set initial activity', async () => {
         const mockClient = {
             user: {
                 tag: 'TestBot#1234',
@@ -113,7 +125,7 @@ describe('Ready Event', () => {
             shard: null,
         };
 
-        readyEvent.execute(mockClient as any);
+        await readyEvent.execute(mockClient as any);
 
         expect(mockClient.user.setActivity).toHaveBeenCalledWith({
             name: 'with dice rolling adventures',
@@ -121,7 +133,7 @@ describe('Ready Event', () => {
         });
     });
 
-    it('should set up activity rotation interval', () => {
+    it('should set up activity rotation interval', async () => {
         const mockClient = {
             user: {
                 tag: 'TestBot#1234',
@@ -141,7 +153,7 @@ describe('Ready Event', () => {
             shard: null,
         };
 
-        readyEvent.execute(mockClient as any);
+        await readyEvent.execute(mockClient as any);
 
         expect(setIntervalSpy).toHaveBeenCalledWith(
             expect.any(Function),
@@ -149,7 +161,7 @@ describe('Ready Event', () => {
         );
     });
 
-    it('should log bot features', () => {
+    it('should log bot information', async () => {
         const mockClient = {
             user: {
                 tag: 'TestBot#1234',
@@ -169,12 +181,14 @@ describe('Ready Event', () => {
             shard: null,
         };
 
-        readyEvent.execute(mockClient as any);
+        await readyEvent.execute(mockClient as any);
 
-        expect(consoleSpy).toHaveBeenCalledWith('🎮 Bot features: RPG, Dice Rolling');
+        expect(consoleSpy).toHaveBeenCalledWith('🎯 ====================================');
+        expect(consoleSpy).toHaveBeenCalledWith('✅ Test Bot is now ready!');
+        expect(consoleSpy).toHaveBeenCalledWith('🤖 Logged in as: TestBot#1234');
     });
 
-    it('should handle missing user gracefully', () => {
+    it('should handle missing user gracefully', async () => {
         const mockClient = {
             user: null,
             guilds: {
@@ -190,9 +204,7 @@ describe('Ready Event', () => {
             shard: null,
         };
 
-        expect(() => {
-            readyEvent.execute(mockClient as any);
-        }).not.toThrow();
+        await expect(readyEvent.execute(mockClient as any)).resolves.not.toThrow();
 
         expect(consoleSpy).toHaveBeenCalledWith('🤖 Logged in as: undefined');
         expect(consoleSpy).toHaveBeenCalledWith('🆔 Bot ID: undefined');

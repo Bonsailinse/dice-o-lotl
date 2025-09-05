@@ -1,10 +1,11 @@
 import { Client, Events, ActivityType } from 'discord.js';
 import { BOT_CONFIG } from '../config/botConfig';
+import { UserSyncService } from '../database/UserSyncService';
 
 export default {
     name: Events.ClientReady,
     once: true,
-    execute(client: Client) {
+    async execute(client: Client) {
         console.log('🎯 ====================================');
         console.log(`✅ ${BOT_CONFIG.name} is now ready!`);
         console.log(`🤖 Logged in as: ${client.user?.tag}`);
@@ -16,6 +17,17 @@ export default {
         console.log(`📝 Version: ${BOT_CONFIG.version}`);
         console.log(`🔗 Support: ${BOT_CONFIG.links.github}`);
         console.log('🎯 ====================================');
+
+        // Initialize user sync service
+        console.log('');
+        UserSyncService.initialize(client);
+
+        // Sync all users from all guilds
+        try {
+            await UserSyncService.syncAllUsers();
+        } catch (error) {
+            console.error('❌ Failed to sync users:', error);
+        }
 
         // Set bot activity with rotation
         const activities = [

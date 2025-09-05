@@ -4,6 +4,9 @@ import { loadCommands } from './handlers/commandHandler';
 import { loadEvents } from './handlers/eventHandler';
 import { Command } from './types/Command';
 import { BOT_CONFIG } from './config/botConfig';
+import { testConnection, closePool } from './config/database';
+import { createTables, insertSampleItems } from './database/migrations';
+import { UserSyncService } from './database/UserSyncService';
 import path from 'path';
 import fs from 'fs';
 
@@ -67,7 +70,7 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
-        GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildMembers, // Required for member events and fetching
         GatewayIntentBits.GuildVoiceStates,
     ],
 });
@@ -86,6 +89,24 @@ async function init() {
         console.log('🎲 ====================================');
         console.log('');
 
+        // Test database connection
+        console.log('🗄️  Testing database connection...');
+        const dbConnected = await testConnection();
+        if (!dbConnected) {
+            throw new Error('Failed to connect to database');
+        }
+
+        // Initialize database tables (only if needed)
+        if (process.env.NODE_ENV === 'development' || process.env.INIT_DB === 'true') {
+            console.log('🗄️  Initializing database tables...');
+            await createTables();
+            await insertSampleItems();
+            console.log('✅ Database initialization complete');
+        } else {
+            console.log('✅ Database connection verified');
+        }
+        console.log('');
+
         // Load commands
         await loadCommands(client, path.join(__dirname, 'commands'));
 
@@ -101,8 +122,16 @@ async function init() {
 }
 
 // Handle process termination
-process.on('SIGINT', () => {
+process.on('SIGINT', async () => {
     logToFile('\n🔌 Shutting down bot...');
+
+    try {
+        // Close database connections
+        await closePool();
+        console.log('🗄️  Database connections closed');
+    } catch (error) {
+        console.error('❌ Error closing database connections:', error);
+    }
 
     // Restore original console methods
     console.log = originalConsoleLog;
