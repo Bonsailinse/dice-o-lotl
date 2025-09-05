@@ -1,5 +1,14 @@
 import helpCommand from '../../../src/commands/general/help';
 import { createMockInteraction } from '../../utils/testUtils';
+import { TEST_BOT_NAME, TEST_VERSION } from '../../utils/testConstants';
+
+// Mock botConfig with centralized version
+jest.mock('../../../src/config/botConfig', () => ({
+    BOT_CONFIG: {
+        name: 'Dice-o-lotl',
+        version: require('../../utils/testConstants').TEST_VERSION,
+    },
+}));
 
 describe('Help Command', () => {
     beforeEach(() => {
@@ -47,7 +56,9 @@ describe('Help Command', () => {
             'Welcome to Dice-o-lotl! Here are the available commands:'
         );
         expect(mockEmbed.setColor).toHaveBeenCalledWith(0x7289da);
-        expect(mockEmbed.setFooter).toHaveBeenCalledWith({ text: 'Dice-o-lotl v1.0.0' });
+        expect(mockEmbed.setFooter).toHaveBeenCalledWith({
+            text: `${TEST_BOT_NAME} v${TEST_VERSION}`,
+        });
         expect(mockEmbed.setTimestamp).toHaveBeenCalled();
     });
 

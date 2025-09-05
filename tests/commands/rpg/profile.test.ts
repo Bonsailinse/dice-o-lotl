@@ -56,7 +56,7 @@ describe('Profile Command', () => {
 
         await profileCommand.execute(mockInteraction as any);
 
-        expect(mockEmbed.setTitle).toHaveBeenCalledWith("⚔️ testuser's Profile");
+        expect(mockEmbed.setTitle).toHaveBeenCalledWith('⚔️ testuser\'s Profile');
         expect(mockEmbed.setColor).toHaveBeenCalledWith(0x00ae86);
         expect(mockEmbed.setThumbnail).toHaveBeenCalledWith('https://example.com/avatar.png');
         expect(mockEmbed.addFields).toHaveBeenCalled();

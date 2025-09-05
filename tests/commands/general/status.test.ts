@@ -1,11 +1,11 @@
 import statusCommand from '../../../src/commands/general/status';
 import { createMockInteraction } from '../../utils/testUtils';
 
-// Mock botConfig
+// Mock botConfig with centralized version
 jest.mock('../../../src/config/botConfig', () => ({
     BOT_CONFIG: {
         name: 'Test Bot',
-        version: '1.0.0',
+        version: require('../../utils/testConstants').TEST_VERSION,
     },
 }));
 

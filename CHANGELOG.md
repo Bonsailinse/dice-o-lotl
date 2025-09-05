@@ -7,6 +7,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2025-09-05
+
+### Added
+
+- Centralized version management system - version is now managed from a single source (package.json)
+- Test utilities for dynamic version handling in test suites
+- Comprehensive version synchronization across all components
+
+### Changed
+
+- Version references in bot commands, status displays, and startup logs now automatically read from package.json
+- Help command footer now uses dynamic version from centralized configuration
+- Test mocks now use dynamic version from package.json instead of hardcoded values
+- Enhanced ESLint configuration to properly handle test file requirements
+
+### Fixed
+
+- Eliminated hardcoded version numbers throughout the codebase
+- Resolved ESLint violations related to require() imports in test files
+- Improved EmbedBuilder mocking strategy in test files
+- Cleaned up temporary files from refactoring process
+
+### Technical
+
+- Implemented automatic version propagation from package.json to all bot components
+- Enhanced test infrastructure with centralized constants and utilities
+- Improved maintainability by reducing version management to a single point of control
+- All version updates now require only a single change in package.json
+
 ## [1.2.2] - 2025-09-04
 
 ### Fixed

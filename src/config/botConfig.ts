@@ -3,6 +3,14 @@
  * This file contains all the bot's metadata, configuration, and constants
  */
 
+import { readFileSync } from 'fs';
+import { join } from 'path';
+
+// Read version from package.json to keep it centralized
+// This ensures all version references use the same source: package.json
+const packageJsonPath = join(__dirname, '..', '..', 'package.json');
+const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf-8'));
+
 export interface BotConfig {
     name: string;
     version: string;
@@ -47,7 +55,7 @@ export interface BotConfig {
 
 export const BOT_CONFIG: BotConfig = {
     name: 'Dice-o-lotl',
-    version: '1.1.0',
+    version: packageJson.version,
     description:
         'A Discord bot with RPG and dice rolling features built using Discord.js and TypeScript. Created for the AxolotlArmy community.',
 

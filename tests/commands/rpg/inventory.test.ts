@@ -1,6 +1,19 @@
 import inventoryCommand from '../../../src/commands/rpg/inventory';
 import { createMockInteraction } from '../../utils/testUtils';
 
+// Mock Discord.js EmbedBuilder
+jest.mock('discord.js', () => ({
+    ...jest.requireActual('discord.js'),
+    EmbedBuilder: jest.fn().mockImplementation(() => ({
+        setTitle: jest.fn().mockReturnThis(),
+        setColor: jest.fn().mockReturnThis(),
+        setDescription: jest.fn().mockReturnThis(),
+        addFields: jest.fn().mockReturnThis(),
+        setFooter: jest.fn().mockReturnThis(),
+        setTimestamp: jest.fn().mockReturnThis(),
+    })),
+}));
+
 describe('Inventory Command', () => {
     beforeEach(() => {
         jest.clearAllMocks();

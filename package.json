@@ -1,8 +1,7 @@
 {
     "name": "dice-o-lotl",
-    "version": "1.2.2",
+    "version": "1.3.0",
     "description": "Dice-o-lotl: A Discord bot with RPG and dice rolling features built using Discord.js and TypeScript",
-    "type": "module",
     "main": "dist/index.js",
     "homepage": "https://github.com/Bonsailinse/dice-o-lotl#readme",
     "repository": {

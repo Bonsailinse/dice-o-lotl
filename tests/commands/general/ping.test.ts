@@ -41,7 +41,7 @@ describe('Ping Command', () => {
     it('should have correct command data', () => {
         expect(pingCommand.data).toBeDefined();
         expect(pingCommand.data.name).toBe('ping');
-        expect(pingCommand.data.description).toBe("Check the bot's latency");
+        expect(pingCommand.data.description).toBe('Check the latency');
     });
 
     it('should execute ping command successfully', async () => {

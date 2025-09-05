@@ -1,11 +1,12 @@
 import { Events, ActivityType } from 'discord.js';
 import readyEvent from '../../src/events/ready';
+import { TEST_VERSION } from '../utils/testConstants';
 
-// Mock botConfig
+// Mock botConfig with centralized version
 jest.mock('../../src/config/botConfig', () => ({
     BOT_CONFIG: {
         name: 'Test Bot',
-        version: '1.0.0',
+        version: require('../utils/testConstants').TEST_VERSION,
         links: {
             github: 'https://github.com/test/repo',
         },
@@ -63,7 +64,7 @@ describe('Ready Event', () => {
         expect(consoleSpy).toHaveBeenCalledWith('📊 Serving 5 guilds');
         expect(consoleSpy).toHaveBeenCalledWith('👥 Connected to 100 users');
         expect(consoleSpy).toHaveBeenCalledWith('🌐 Shard ID: 0');
-        expect(consoleSpy).toHaveBeenCalledWith('📝 Version: 1.0.0');
+        expect(consoleSpy).toHaveBeenCalledWith(`📝 Version: ${TEST_VERSION}`);
         expect(consoleSpy).toHaveBeenCalledWith('🔗 Support: https://github.com/test/repo');
     });
 
