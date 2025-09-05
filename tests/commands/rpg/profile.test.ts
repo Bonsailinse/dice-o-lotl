@@ -2,6 +2,13 @@ import profileCommand from '../../../src/commands/rpg/profile';
 import { createMockInteraction } from '../../utils/testUtils';
 import { DatabaseService } from '../../../src/database/DatabaseService';
 
+// Mock the database config to prevent actual database connections in tests
+jest.mock('../../../src/config/database', () => ({
+    testConnection: jest.fn().mockResolvedValue(true),
+    query: jest.fn(),
+    closePool: jest.fn(),
+}));
+
 // Mock DatabaseService
 jest.mock('../../../src/database/DatabaseService');
 

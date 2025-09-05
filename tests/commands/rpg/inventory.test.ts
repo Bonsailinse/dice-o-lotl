@@ -2,6 +2,13 @@ import inventoryCommand from '../../../src/commands/rpg/inventory';
 import { createMockInteraction } from '../../utils/testUtils';
 import { DatabaseService } from '../../../src/database/DatabaseService';
 
+// Mock the database config to prevent actual database connections in tests
+jest.mock('../../../src/config/database', () => ({
+    testConnection: jest.fn().mockResolvedValue(true),
+    query: jest.fn(),
+    closePool: jest.fn(),
+}));
+
 // Mock Discord.js EmbedBuilder
 jest.mock('discord.js', () => ({
     ...jest.requireActual('discord.js'),

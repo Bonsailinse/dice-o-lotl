@@ -2,6 +2,13 @@ import { Events, ActivityType } from 'discord.js';
 import readyEvent from '../../src/events/ready';
 import { TEST_VERSION } from '../utils/testConstants';
 
+// Mock the database config to prevent actual database connections in tests
+jest.mock('../../src/config/database', () => ({
+    testConnection: jest.fn().mockResolvedValue(true),
+    query: jest.fn(),
+    closePool: jest.fn(),
+}));
+
 // Mock the UserSyncService
 jest.mock('../../src/database/UserSyncService', () => ({
     UserSyncService: {
