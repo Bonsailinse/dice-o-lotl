@@ -4,9 +4,52 @@ This document defines the standard workflow for pushing changes to GitHub and cr
 
 ## 🚀 Standard Deployment Process
 
-When instructed to "push changes to GitHub" or similar, **ALWAYS** follow this complete workflow:
+When you intend to push changes to GitHub, **ALWAYS** follow this complete workflow:
 
-### 1. 📊 Version Management
+### 1. � Pre-commit Quality Checks
+
+**MANDATORY**: Run these commands before EVERY commit to ensure code quality:
+
+```bash
+# 1. Format code with Prettier
+npm run format
+
+# 2. Check code quality with ESLint
+npm run lint
+
+# 3. Run all unit tests
+npm test
+
+# 4. Verify TypeScript compilation
+npm run build
+
+# 5. Test database connectivity (if database changes)
+npm run test:db
+
+# 6. Run full CI test suite
+npm run test:ci
+```
+
+#### Quick Pre-commit Script
+
+For convenience, you can run this one-liner before every commit:
+
+```bash
+npm run format && npm run lint && npm test && npm run build && npm run test:db && npm run test:ci
+```
+
+**⚠️ IMPORTANT**: If ANY of these commands fail, DO NOT commit. Fix the issues first.
+
+#### What Each Command Checks
+
+- **`npm run format`**: Applies consistent code formatting with Prettier
+- **`npm run lint`**: Checks for code quality issues, unused imports, and style violations
+- **`npm test`**: Runs all unit tests to ensure functionality
+- **`npm run build`**: Verifies TypeScript compilation without errors
+- **`npm run test:db`**: Tests database connectivity and operations
+- **`npm run test:ci`**: Runs comprehensive CI test suite
+
+### 2. �📊 Version Management
 
 - **Determine version type** based on changes:
     - **MAJOR** (x.0.0): Breaking changes, major new features
@@ -18,7 +61,7 @@ When instructed to "push changes to GitHub" or similar, **ALWAYS** follow this c
     "version": "x.y.z"
     ```
 
-### 2. 📝 Documentation Updates
+### 3. 📝 Documentation Updates
 
 #### Update CHANGELOG.md
 
@@ -37,7 +80,7 @@ When instructed to "push changes to GitHub" or similar, **ALWAYS** follow this c
 - Ensure it reflects the latest improvements
 - Keep it concise but informative
 
-### 3. 🏷️ Git Operations
+### 4. 🏷️ Git Operations
 
 #### Commit Changes
 
@@ -91,23 +134,23 @@ git push origin --tags  # Only if tags were created
 
 ## 📋 Pre-deployment Checklist
 
-Before starting the deployment process:
+Before starting the deployment process, ensure you have completed step 1 (Pre-commit Quality Checks) and verify:
 
-- [ ] All tests passing
-- [ ] No lint errors
+- [ ] All pre-commit checks passing (format, lint, test, build, test:db, test:ci)
 - [ ] Database migrations tested (if applicable)
 - [ ] Breaking changes documented
 - [ ] Dependencies updated if needed
 
 ## 🔄 Workflow Summary
 
-1. **Analyze changes** → Determine version type
-2. **Update package.json** → Bump version number
-3. **Update CHANGELOG.md** → Document all changes
-4. **Update README.md** → Refresh recent changes section
-5. **Commit all changes** → Single commit with version
-6. **Create tag** → Only for MAJOR/MINOR
-7. **Push everything** → Code + tags to GitHub
+1. **Run pre-commit checks** → `npm run format && npm run lint && npm test && npm run build && npm run test:db && npm run test:ci`
+2. **Analyze changes** → Determine version type
+3. **Update package.json** → Bump version number
+4. **Update CHANGELOG.md** → Document all changes
+5. **Update README.md** → Refresh recent changes section
+6. **Commit all changes** → Single commit with version
+7. **Create tag** → Only for MAJOR/MINOR
+8. **Push everything** → Code + tags to GitHub
 
 ## 🎪 Example Scenarios
 

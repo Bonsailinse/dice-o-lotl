@@ -6,7 +6,6 @@ import { Command } from './types/Command';
 import { BOT_CONFIG } from './config/botConfig';
 import { testConnection, closePool } from './config/database';
 import { createTables, insertSampleItems } from './database/migrations';
-import { UserSyncService } from './database/UserSyncService';
 import path from 'path';
 import fs from 'fs';
 

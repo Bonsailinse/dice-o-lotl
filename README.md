@@ -322,20 +322,19 @@ Dice-o-lotl is created for the AxolotlArmy community!
 - **Website**: [axolotl.army](https://axolotl.army)
 - **Developer**: [Bonsailinse](https://github.com/Bonsailinse)
 
-## 🔄 Recent Changes (v1.4.0)
+## 🔄 Recent Changes (v1.4.1)
 
-### ✨ New Features
+### 🔧 Improvements
+
+- **Enhanced Deployment Guide**: Reorganized workflow structure for better clarity
+- **Quality Assurance**: Pre-commit checks now prioritized as first step in deployment process
+- **Code Cleanup**: Removed unused imports and improved code organization
+
+### Previous Features (v1.4.0)
 
 - **PostgreSQL Database Integration**: Complete database backend with user profiles and inventories
 - **Real-time User Sync**: Automatic Discord user synchronization with database
 - **Enhanced RPG System**: Database-backed character profiles with stats, levels, and inventories
-- **Deployment Automation**: Professional release workflow with semantic versioning
-
-### 🔧 Improvements
-
-- **Database Architecture**: Robust data layer with connection pooling and migrations
-- **Test Coverage**: Comprehensive test suite for all database functionality
-- **Documentation**: Organized docs folder with setup and deployment guides
 
 ### 🐛 Bug Fixes
 

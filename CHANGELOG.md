@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.1] - 2025-09-06
+
+### Fixed
+
+- Deployment guide workflow structure now follows logical sequence
+- Pre-commit quality checks moved to step 1 for better workflow organization
+- Removed unused UserSyncService import from main index file
+
 ## [1.4.0] - 2025-09-06
 
 ### Added
