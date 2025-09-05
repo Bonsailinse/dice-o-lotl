@@ -1,14 +1,93 @@
+// Mock database config to prevent actual database connections in CI
+jest.mock('../../src/config/database', () => ({
+    testConnection: jest.fn().mockResolvedValue(undefined),
+    query: jest.fn().mockResolvedValue({ rows: [], rowCount: 0 }),
+    closePool: jest.fn().mockResolvedValue(undefined),
+}));
+
+// Mock DatabaseService
+jest.mock('../../src/database/DatabaseService');
+
 import { createMockClient, createMockInteraction, createMockCommand } from '../utils/testUtils';
 import pingCommand from '../../src/commands/general/ping';
 import profileCommand from '../../src/commands/rpg/profile';
 import helpCommand from '../../src/commands/general/help';
 import inventoryCommand from '../../src/commands/rpg/inventory';
+import { DatabaseService } from '../../src/database/DatabaseService';
+
+const mockDatabaseService = DatabaseService as jest.Mocked<typeof DatabaseService>;
 
 describe('Integration Tests', () => {
     let mockClient: any;
 
     beforeEach(() => {
         jest.clearAllMocks();
+        
+        // Setup DatabaseService mocks
+        mockDatabaseService.getOrCreatePlayerProfile.mockResolvedValue({
+            user: {
+                id: 1,
+                discord_id: '123456789',
+                username: 'testuser',
+                created_at: new Date(),
+                updated_at: new Date(),
+            },
+            profile: {
+                id: 1,
+                user_id: 1,
+                level: 1,
+                experience: 0,
+                health: 100,
+                max_health: 100,
+                mana: 50,
+                max_mana: 50,
+                strength: 10,
+                defense: 10,
+                agility: 10,
+                intelligence: 10,
+                gold: 100,
+                created_at: new Date(),
+                updated_at: new Date(),
+            }
+        });
+
+        mockDatabaseService.getUserByDiscordId.mockResolvedValue({
+            id: 1,
+            discord_id: '123456789',
+            username: 'testuser',
+            created_at: new Date(),
+            updated_at: new Date(),
+        });
+
+        mockDatabaseService.createUser.mockResolvedValue({
+            id: 1,
+            discord_id: '123456789',
+            username: 'testuser',
+            created_at: new Date(),
+            updated_at: new Date(),
+        });
+
+        mockDatabaseService.getPlayerInventory.mockResolvedValue([
+            {
+                id: 1,
+                user_id: 1,
+                item_id: 1,
+                quantity: 1,
+                equipped: false,
+                created_at: new Date(),
+                item: {
+                    id: 1,
+                    name: 'Test Item',
+                    description: 'A test item',
+                    type: 'weapon',
+                    rarity: 'common',
+                    value: 10,
+                    stats: {},
+                    created_at: new Date(),
+                }
+            }
+        ]);
+
         mockClient = createMockClient({
             commands: new Map(),
         });
