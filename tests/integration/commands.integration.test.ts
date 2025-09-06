@@ -22,7 +22,7 @@ describe('Integration Tests', () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        
+
         // Setup DatabaseService mocks
         mockDatabaseService.getOrCreatePlayerProfile.mockResolvedValue({
             user: {
@@ -42,13 +42,13 @@ describe('Integration Tests', () => {
                 mana: 50,
                 max_mana: 50,
                 strength: 10,
-                defense: 10,
+                constitution: 10,
                 agility: 10,
                 intelligence: 10,
                 gold: 100,
                 created_at: new Date(),
                 updated_at: new Date(),
-            }
+            },
         });
 
         mockDatabaseService.getUserByDiscordId.mockResolvedValue({
@@ -84,9 +84,12 @@ describe('Integration Tests', () => {
                     value: 10,
                     stats: {},
                     created_at: new Date(),
-                }
-            }
+                },
+            },
         ]);
+
+        // Mock equipment methods
+        mockDatabaseService.getEquippedItemByType.mockResolvedValue(null);
 
         mockClient = createMockClient({
             commands: new Map(),

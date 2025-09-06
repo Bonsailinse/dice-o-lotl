@@ -7,6 +7,47 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2025-09-06
+
+### BREAKING CHANGES
+
+⚠️ **Database Schema Breaking Change**: The `defense` column has been renamed to `constitution` in the `player_profiles` table. This requires fresh database setup.
+
+### Changed
+
+- **BREAKING**: Renamed database column `player_profiles.defense` to `player_profiles.constitution`
+- **BREAKING**: Updated TypeScript interface `PlayerProfile.defense` to `PlayerProfile.constitution`
+- **BREAKING**: Sample armor items now use `constitution` stats instead of `defense`
+- Profile command now displays "Constitution" and uses actual `constitution` database field
+- Profile embed layout improved with better visual separation between sections
+- Equipment section added to profile with weapon and armor display slots
+
+### Added
+
+- Equipment integration in profile command showing equipped weapons and armor
+- Database methods for equipment management:
+  - `getEquippedItems()` - Get all equipped items for a user
+  - `getEquippedItemByType()` - Get equipped item of specific type
+  - `equipItemExclusive()` - Equip item and auto-unequip others of same type
+- Fresh database setup script `npm run setup:fresh-db` for constitution-based schema
+- Comprehensive database setup documentation in README
+
+### Removed
+
+- Redundant database migration scripts (constitution setup uses fresh database only)
+- Outdated `fixTables.ts` and related migration files
+- Separate constitution documentation (consolidated into README)
+
+### Fixed
+
+- Profile emoji changed from sword (⚔️) to neutral person (🧑) in title
+- Equipment display properly shows "None equipped" when no items are equipped
+- All tests updated to work with constitution-based schema
+
+### Migration Required
+
+**For existing installations**: Run `npm run setup:fresh-db` to recreate database with constitution schema. This will clear existing data.
+
 ## [1.4.1] - 2025-09-06
 
 ### Fixed

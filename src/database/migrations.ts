@@ -28,7 +28,7 @@ export const createTables = async (): Promise<void> => {
         mana INTEGER DEFAULT 50,
         max_mana INTEGER DEFAULT 50,
         strength INTEGER DEFAULT 10,
-        defense INTEGER DEFAULT 10,
+        constitution INTEGER DEFAULT 10,
         agility INTEGER DEFAULT 10,
         intelligence INTEGER DEFAULT 10,
         gold INTEGER DEFAULT 100,
@@ -128,7 +128,7 @@ export const insertSampleItems = async (): Promise<void> => {
                 type: 'armor',
                 rarity: 'common',
                 value: 30,
-                stats: { defense: 8, durability: 80 },
+                stats: { constitution: 8, durability: 80 },
             },
             {
                 name: 'Health Potion',

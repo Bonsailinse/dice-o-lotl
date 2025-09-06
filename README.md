@@ -2,6 +2,16 @@
 
 A feature-rich Discord bot with RPG mechanics and dice rolling features built using Discord.js v14 and TypeScript. Created for the AxolotlArmy community.
 
+## ✨ What's New in v2.0.0
+
+**BREAKING CHANGES**: The database schema has been updated to use `constitution` instead of `defense` for a more traditional D&D-style experience. Fresh database setup required.
+
+- 🛡️ **Constitution System**: Character stats now use Constitution instead of Defense
+- ⚔️ **Equipment Integration**: Profile shows equipped weapons and armor
+- 🧑 **Improved Profile**: Better layout with visual separations and neutral person emoji
+- 🗄️ **Fresh Database Setup**: Streamlined database setup with constitution-based schema
+- 🧹 **Cleaned Codebase**: Removed redundant migration scripts for simpler maintenance
+
 ## 🚀 Features
 
 - **Slash Commands**: Modern Discord slash command support with comprehensive command system
@@ -70,6 +80,25 @@ npm install
     - Manage Messages (optional)
 4. Copy the generated URL and open it to invite your bot
 
+### 5. Database Setup
+
+The bot requires a PostgreSQL database for RPG features. Set up the database with:
+
+```bash
+# Set up fresh database with constitution-based stats
+npm run setup:fresh-db
+
+# Test database connection
+npm run test:db
+```
+
+**Database Features:**
+
+- Character profiles
+- Inventory system with equipment
+- User synchronization with Discord
+- Sample items and data
+
 ## 🏃‍♂️ Running the Bot
 
 ### Development Mode (with hot reload)
@@ -91,11 +120,17 @@ npm start
 # Clear Discord slash commands (useful for development)
 npm run clear-commands
 
-# Lint TypeScript code
-npm run lint
+# Database setup and testing
+npm run setup:fresh-db    # Set up fresh database
+npm run test:db          # Test database connection
 
-# Format code with Prettier
-npm run format
+# Testing
+npm test                 # Run all tests
+npm run test:coverage    # Run tests with coverage
+
+# Code quality
+npm run lint             # Lint TypeScript code
+npm run format           # Format code with Prettier
 ```
 
 ## 📁 Project Structure
@@ -206,55 +241,6 @@ The bot includes a sophisticated information and monitoring system:
 - **Latency Monitoring**: WebSocket and API response times
 - **Resource Usage**: Memory consumption and system specifications
 - **Health Status Indicators**: Color-coded status based on performance
-
-## 🔧 Adding New Commands
-
-...
-
-## 🎯 Prompt Engineering Tips
-
-When creating prompts for your RPG bot features, consider:
-
-### Character Generation Prompts
-
-```
-
-"Generate a fantasy character with the following attributes:
-
-- Class: [Warrior/Mage/Rogue/etc.]
-- Background: [Brief backstory]
-- Starting stats based on class
-- Unique traits or abilities"
-
-```
-
-### Quest Generation
-
-```
-
-"Create a quest for a level [X] character:
-
-- Quest name and description
-- Objectives (main and optional)
-- Rewards (experience, gold, items)
-- Difficulty rating
-- NPCs involved"
-
-```
-
-### Item Generation
-
-```
-
-"Generate a [rarity] [item type] for RPG gameplay:
-
-- Item name and description
-- Stats/effects
-- Value in gold
-- Level requirement
-- Special properties or lore"
-
-```
 
 ## 📝 Development Tips
 

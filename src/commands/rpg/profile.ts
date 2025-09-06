@@ -21,12 +21,16 @@ const profileCommand: Command = {
 
             const { profile } = await DatabaseService.getOrCreatePlayerProfile(interaction.user.id);
 
+            // Get equipped items
+            const equippedWeapon = await DatabaseService.getEquippedItemByType(user.id, 'weapon');
+            const equippedArmor = await DatabaseService.getEquippedItemByType(user.id, 'armor');
+
             // Calculate experience needed for next level
             const expForNextLevel = profile.level * 100;
             const expProgress = Math.min(profile.experience, expForNextLevel);
 
             const embed = new EmbedBuilder()
-                .setTitle(`⚔️ Profile of ${interaction.user.username}`)
+                .setTitle(`🧑 Profile of ${interaction.user.username}`)
                 .setColor(0x00ae86)
                 .setThumbnail(interaction.user.displayAvatarURL())
                 .addFields(
@@ -47,9 +51,21 @@ const profileCommand: Command = {
                         value: `${profile.mana}/${profile.max_mana}`,
                         inline: true,
                     },
-                    { name: '⚡ Stats', value: '\u200b', inline: true },
+                    { name: '\u200b', value: '\u200b', inline: true },
+                    { name: '\u200b', value: '\u200b', inline: false },
+                    {
+                        name: 'Weapon:',
+                        value: equippedWeapon?.item?.name || 'None equipped',
+                        inline: true,
+                    },
+                    {
+                        name: 'Armor:',
+                        value: equippedArmor?.item?.name || 'None equipped',
+                        inline: true,
+                    },
+                    { name: '\u200b', value: '\u200b', inline: false },
                     { name: '💪 Strength', value: `${profile.strength}`, inline: true },
-                    { name: '🛡️ Defense', value: `${profile.defense}`, inline: true },
+                    { name: '🛡️ Constitution', value: `${profile.constitution}`, inline: true },
                     { name: '💨 Agility', value: `${profile.agility}`, inline: true },
                     { name: '🧠 Intelligence', value: `${profile.intelligence}`, inline: true }
                 )

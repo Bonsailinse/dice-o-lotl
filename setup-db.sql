@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS player_profiles (
     mana INTEGER DEFAULT 50,
     max_mana INTEGER DEFAULT 50,
     strength INTEGER DEFAULT 10,
-    defense INTEGER DEFAULT 10,
+    constitution INTEGER DEFAULT 10,
     agility INTEGER DEFAULT 10,
     intelligence INTEGER DEFAULT 10,
     gold INTEGER DEFAULT 100,
@@ -109,7 +109,7 @@ CREATE TRIGGER update_player_profiles_updated_at
 -- Insert sample items
 INSERT INTO items (name, description, type, rarity, value, stats) VALUES
     ('Iron Sword', 'A sturdy iron sword suitable for beginners.', 'weapon', 'common', 50, '{"attack": 15, "durability": 100}'),
-    ('Leather Armor', 'Basic leather armor providing minimal protection.', 'armor', 'common', 30, '{"defense": 8, "durability": 80}'),
+    ('Leather Armor', 'Basic leather armor providing minimal protection.', 'armor', 'common', 30, '{"constitution": 8, "durability": 80}'),
     ('Health Potion', 'Restores 50 health points.', 'consumable', 'common', 25, '{"heal": 50}'),
     ('Dragon Scale', 'A rare scale from an ancient dragon.', 'misc', 'legendary', 1000, '{}')
 ON CONFLICT (name) DO NOTHING;

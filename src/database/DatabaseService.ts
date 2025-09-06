@@ -19,7 +19,7 @@ export interface PlayerProfile {
     mana: number;
     max_mana: number;
     strength: number;
-    defense: number;
+    constitution: number;
     agility: number;
     intelligence: number;
     gold: number;
@@ -252,6 +252,55 @@ export class DatabaseService {
         return result.rows.length > 0;
     }
 
+    static async equipItemExclusive(userId: number, itemId: number): Promise<boolean> {
+        // Get the item type first
+        const itemResult = await query(
+            `
+      SELECT i.type FROM items i
+      JOIN player_inventory pi ON i.id = pi.item_id
+      WHERE pi.user_id = $1 AND pi.item_id = $2
+    `,
+            [userId, itemId]
+        );
+
+        if (itemResult.rows.length === 0) return false;
+
+        const itemType = itemResult.rows[0].type;
+
+        // Start transaction
+        await query('BEGIN');
+
+        try {
+            // Unequip all items of the same type
+            await query(
+                `
+        UPDATE player_inventory pi
+        SET equipped = false
+        FROM items i
+        WHERE pi.item_id = i.id AND pi.user_id = $1 AND i.type = $2
+      `,
+                [userId, itemType]
+            );
+
+            // Equip the new item
+            const result = await query(
+                `
+        UPDATE player_inventory
+        SET equipped = true
+        WHERE user_id = $1 AND item_id = $2
+        RETURNING *
+      `,
+                [userId, itemId]
+            );
+
+            await query('COMMIT');
+            return result.rows.length > 0;
+        } catch (error) {
+            await query('ROLLBACK');
+            throw error;
+        }
+    }
+
     static async unequipItem(userId: number, itemId: number): Promise<boolean> {
         const result = await query(
             `
@@ -263,5 +312,75 @@ export class DatabaseService {
             [userId, itemId]
         );
         return result.rows.length > 0;
+    }
+
+    static async getEquippedItems(userId: number): Promise<PlayerInventoryItem[]> {
+        const result = await query(
+            `
+      SELECT pi.*, i.name, i.description, i.type, i.rarity, i.value, i.stats
+      FROM player_inventory pi
+      JOIN items i ON pi.item_id = i.id
+      WHERE pi.user_id = $1 AND pi.equipped = true
+      ORDER BY i.type, i.name
+    `,
+            [userId]
+        );
+
+        return result.rows.map((row: any) => ({
+            id: row.id,
+            user_id: row.user_id,
+            item_id: row.item_id,
+            quantity: row.quantity,
+            equipped: row.equipped,
+            created_at: row.created_at,
+            item: {
+                id: row.item_id,
+                name: row.name,
+                description: row.description,
+                type: row.type,
+                rarity: row.rarity,
+                value: row.value,
+                stats: row.stats,
+                created_at: row.created_at,
+            },
+        }));
+    }
+
+    static async getEquippedItemByType(
+        userId: number,
+        type: string
+    ): Promise<PlayerInventoryItem | null> {
+        const result = await query(
+            `
+      SELECT pi.*, i.name, i.description, i.type, i.rarity, i.value, i.stats
+      FROM player_inventory pi
+      JOIN items i ON pi.item_id = i.id
+      WHERE pi.user_id = $1 AND pi.equipped = true AND i.type = $2
+      LIMIT 1
+    `,
+            [userId, type]
+        );
+
+        if (result.rows.length === 0) return null;
+
+        const row = result.rows[0];
+        return {
+            id: row.id,
+            user_id: row.user_id,
+            item_id: row.item_id,
+            quantity: row.quantity,
+            equipped: row.equipped,
+            created_at: row.created_at,
+            item: {
+                id: row.item_id,
+                name: row.name,
+                description: row.description,
+                type: row.type,
+                rarity: row.rarity,
+                value: row.value,
+                stats: row.stats,
+                created_at: row.created_at,
+            },
+        };
     }
 }

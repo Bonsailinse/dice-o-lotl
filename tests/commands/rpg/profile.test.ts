@@ -38,13 +38,24 @@ describe('Profile Command', () => {
                 mana: 50,
                 max_mana: 50,
                 strength: 10,
-                defense: 10,
+                constitution: 10,
                 agility: 10,
                 intelligence: 10,
                 gold: 100,
                 created_at: new Date(),
                 updated_at: new Date(),
             },
+        });
+
+        // Mock equipment methods
+        mockDatabaseService.getEquippedItemByType.mockResolvedValue(null);
+        mockDatabaseService.getUserByDiscordId.mockResolvedValue({
+            id: 1,
+            discord_id: '123456789',
+            username: 'testuser',
+            display_name: 'Test User',
+            created_at: new Date(),
+            updated_at: new Date(),
         });
     });
 
@@ -96,7 +107,7 @@ describe('Profile Command', () => {
 
         await profileCommand.execute(mockInteraction as any);
 
-        expect(mockEmbed.setTitle).toHaveBeenCalledWith('⚔️ Profile of testuser');
+        expect(mockEmbed.setTitle).toHaveBeenCalledWith('🧑 Profile of testuser');
         expect(mockEmbed.setColor).toHaveBeenCalledWith(0x00ae86);
         expect(mockEmbed.setThumbnail).toHaveBeenCalledWith('https://example.com/avatar.png');
         expect(mockEmbed.addFields).toHaveBeenCalled();
@@ -135,9 +146,13 @@ describe('Profile Command', () => {
             { name: '💰 Gold', value: '100', inline: true },
             { name: '❤️ Health', value: '100/100', inline: true },
             { name: '💙 Mana', value: '50/50', inline: true },
-            { name: '⚡ Stats', value: '\u200b', inline: true },
+            { name: '\u200b', value: '\u200b', inline: true },
+            { name: '\u200b', value: '\u200b', inline: false },
+            { name: 'Weapon:', value: 'None equipped', inline: true },
+            { name: 'Armor:', value: 'None equipped', inline: true },
+            { name: '\u200b', value: '\u200b', inline: false },
             { name: '💪 Strength', value: '10', inline: true },
-            { name: '🛡️ Defense', value: '10', inline: true },
+            { name: '🛡️ Constitution', value: '10', inline: true },
             { name: '💨 Agility', value: '10', inline: true },
             { name: '🧠 Intelligence', value: '10', inline: true }
         );
